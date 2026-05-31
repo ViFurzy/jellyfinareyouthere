@@ -12,9 +12,9 @@ type ModalControllerProps = {
 
 export function createModalController(props: ModalControllerProps): ModalController {
   const {
-    message = "Are you still watching? Playback will stop soon unless you resume.",
-    continueButtonText = "Continue watching",
-    stopButtonText = "Stop",
+    message = "Are you still watching?",
+    continueButtonText = "Yes, I'm still watching",
+    stopButtonText = "Stop watching",
   } = props;
   let root: HTMLDivElement | null = null;
   let intervalId: number | null = null;
@@ -31,12 +31,10 @@ export function createModalController(props: ModalControllerProps): ModalControl
 
     root.innerHTML = `
       <div class="jellycheckr-modal">
-        <h3>${message}</h3>
+        <p class="jellycheckr-question">${message}</p>
+        <button class="jellycheckr-continue">${continueButtonText}</button>
         <p class="jellycheckr-countdown"></p>
-        <div class="jellycheckr-actions">
-          <button class="jellycheckr-continue">${continueButtonText}</button>
-          <button class="jellycheckr-stop">${stopButtonText}</button>
-        </div>
+        <button class="jellycheckr-stop">${stopButtonText}</button>
       </div>
     `;
 
@@ -56,12 +54,9 @@ export function createModalController(props: ModalControllerProps): ModalControl
 
     node.style.display = "flex";
 
-    const continueButton =
-      node.querySelector<HTMLButtonElement>(".jellycheckr-continue");
-    const stopButton =
-      node.querySelector<HTMLButtonElement>(".jellycheckr-stop");
-    const countdownNode =
-      node.querySelector<HTMLParagraphElement>(".jellycheckr-countdown");
+    const continueButton = node.querySelector<HTMLButtonElement>(".jellycheckr-continue");
+    const stopButton = node.querySelector<HTMLButtonElement>(".jellycheckr-stop");
+    const countdownNode = node.querySelector<HTMLParagraphElement>(".jellycheckr-countdown");
 
     if (!continueButton || !stopButton || !countdownNode) return;
 
@@ -170,102 +165,104 @@ function injectStyles(): void {
       display: none;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 70%);
-      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(3px);
       z-index: 99999;
-      animation: jellyFadeIn 220ms ease-out;
+      animation: jellyFadeIn 200ms ease-out;
     }
 
     .jellycheckr-modal {
-      width: min(520px, 92vw);
-      background: linear-gradient(180deg, #141414 0%, #0f0f0f 100%);
+      width: min(360px, 88vw);
+      background: rgba(18, 18, 18, 0.96);
       color: #fff;
-      border-radius: 10px;
-      padding: 28px 28px 24px;
-      box-shadow:
-        0 20px 60px rgba(0,0,0,0.8),
-        inset 0 1px 0 rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      text-align: center;
-      transform: translateY(8px) scale(.98);
-      animation: jellyModalIn 220ms ease-out forwards;
-    }
-
-    .jellycheckr-modal h3 {
-      font-size: 1.6rem;
-      font-weight: 600;
-      letter-spacing: 0.2px;
-      margin: 0 0 8px 0;
-    }
-
-    .jellycheckr-countdown {
-      font-size: 1rem;
-      opacity: 0.7;
-      margin-bottom: 18px;
-    }
-
-    .jellycheckr-countdown strong {
-      font-size: 1.4rem;
-      opacity: 1;
-      margin-left: 4px;
-    }
-
-    .jellycheckr-actions {
+      border-radius: 12px;
+      padding: 32px 28px 24px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
-      gap: 10px;
-      margin-top: 10px;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      text-align: center;
+      transform: scale(0.96);
+      animation: jellyModalIn 200ms ease-out forwards;
     }
 
-    .jellycheckr-actions button {
-      flex: 1;
-      min-height: 44px;
-      border-radius: 6px;
-      border: none;
-      font-size: 0.95rem;
+    .jellycheckr-question {
+      font-size: 1.4rem;
       font-weight: 600;
-      cursor: pointer;
-      transition: all .18s ease;
+      margin: 0 0 22px 0;
+      line-height: 1.3;
+      letter-spacing: 0.1px;
     }
 
     .jellycheckr-continue {
+      width: 100%;
+      min-height: 52px;
+      border-radius: 8px;
+      border: none;
       background: #e50914;
-      color: white;
-      box-shadow: 0 4px 14px rgba(229,9,20,0.45);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(229, 9, 20, 0.5);
+      transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+      letter-spacing: 0.2px;
     }
 
     .jellycheckr-continue:hover,
     .jellycheckr-continue:focus-visible {
       background: #f6121d;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(229,9,20,0.55);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(229, 9, 20, 0.65);
       outline: none;
     }
 
+    .jellycheckr-continue:active {
+      transform: translateY(0);
+    }
+
+    .jellycheckr-countdown {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.45);
+      margin: 12px 0 14px 0;
+    }
+
+    .jellycheckr-countdown strong {
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 600;
+    }
+
     .jellycheckr-stop {
-      background: rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.9);
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.82rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: color 0.15s ease;
     }
 
     .jellycheckr-stop:hover,
     .jellycheckr-stop:focus-visible {
-      background: rgba(255,255,255,0.16);
+      color: rgba(255, 255, 255, 0.75);
       outline: none;
     }
 
-    .jellycheckr-actions button:focus-visible {
-      box-shadow: 0 0 0 2px rgba(255,255,255,0.35);
+    .jellycheckr-continue:focus-visible,
+    .jellycheckr-stop:focus-visible {
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
     }
 
     @keyframes jellyFadeIn {
-      from { opacity: 0 }
-      to { opacity: 1 }
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
 
     @keyframes jellyModalIn {
-      to {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
+      to { transform: scale(1); opacity: 1; }
     }
   `;
 
