@@ -144,8 +144,11 @@ jobs:
           $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json -Depth 10
           $manifest[0].versions = @($newEntry) + @($manifest[0].versions)
 
-          # Use -InputObject to prevent PowerShell pipeline from unwrapping the top-level array
-          $json = ConvertTo-Json -InputObject $manifest -Depth 10
+          # Serialize the single plugin object, then wrap in [...] explicitly.
+          # ConvertTo-Json strips the top-level array wrapper when piped or passed a PSObject,
+          # so we build the array brackets ourselves to guarantee valid PackageInfo[] JSON.
+          $inner = ConvertTo-Json -InputObject $manifest[0] -Depth 10
+          $json = "[$inner]"
           Set-Content -LiteralPath $manifestPath -Value $json -NoNewline -Encoding utf8
 
       - name: Commit and push updated manifest
