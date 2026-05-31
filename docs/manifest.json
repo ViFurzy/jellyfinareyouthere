@@ -1,4 +1,4 @@
-[{
+{
   "guid": "a53af988-9d8f-4a7c-8d5f-f902fd90e4bd",
   "name": "Not fall asleep",
   "overview": "Adds an Are You Still Watching? prompt flow for Jellyfin playback.",
@@ -7,6 +7,15 @@
   "category": "General",
   "imageUrl": "https://vifurzy.github.io/jellyfinareyouthere/logo.png",
   "versions": [
+    {
+      "version": "0.2.1.0",
+      "changelog": "Jellycheckr 0.2.1",
+      "targetAbi": "10.9.11.0",
+      "sourceUrl": "https://github.com/ViFurzy/jellyfinareyouthere/releases/download/v0.2.1/Jellycheckr_0.2.1.zip",
+      "checksum": "C45760E441FD83AC120E6BED75E6A42D",
+      "timestamp": "2026-05-31T10:36:37Z",
+      "dependencies": []
+    },
     {
       "version": "0.2.0.0",
       "changelog": "Jellycheckr 0.2.0",
@@ -17,4 +26,4 @@
       "dependencies": []
     }
   ]
-}]
+}
