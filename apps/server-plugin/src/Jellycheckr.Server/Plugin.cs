@@ -23,7 +23,7 @@ public sealed class Plugin : BasePlugin<Models.PluginConfig>, IHasWebPages
         }
     }
 
-    public override string Name => "Jellycheckr AYSW";
+    public override string Name => "Not fall asleep";
 
     public override Guid Id => Guid.Parse("a53af988-9d8f-4a7c-8d5f-f902fd90e4bd");
 

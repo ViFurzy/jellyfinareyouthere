@@ -1,10 +1,10 @@
 [{
   "guid": "a53af988-9d8f-4a7c-8d5f-f902fd90e4bd",
-  "name": "Jellycheckr AYSW",
+  "name": "Not fall asleep",
   "overview": "Adds an Are You Still Watching? prompt flow for Jellyfin playback.",
   "description": "Jellycheckr adds an \"Are You Still Watching?\" experience to Jellyfin with a server plugin, embedded web client module, and built-in configuration UI.\n\nInitial target compatibility: Jellyfin server 10.9.x+.",
   "owner": "ViFurzy",
   "category": "General",
-  "imageUrl": "https://shtbox.io/jellycheckr/logo.png",
+  "imageUrl": "https://vifurzy.github.io/jellyfinareyouthere/logo.png",
   "versions": []
 }]
