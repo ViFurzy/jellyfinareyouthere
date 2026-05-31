@@ -8,6 +8,15 @@
   "imageUrl": "https://vifurzy.github.io/jellyfinareyouthere/logo.png",
   "versions": [
     {
+      "version": "0.2.4.0",
+      "changelog": "Jellycheckr 0.2.4",
+      "targetAbi": "10.9.11.0",
+      "sourceUrl": "https://github.com/ViFurzy/jellyfinareyouthere/releases/download/v0.2.4/Jellycheckr_0.2.4.zip",
+      "checksum": "E9370359189823ED50BEAD0DC22677FC",
+      "timestamp": "2026-05-31T22:33:23Z",
+      "dependencies": []
+    },
+    {
       "version": "0.2.3.0",
       "changelog": "Jellycheckr 0.2.3",
       "targetAbi": "10.9.11.0",
