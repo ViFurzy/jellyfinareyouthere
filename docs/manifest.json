@@ -1,4 +1,4 @@
-{
+[{
   "guid": "a53af988-9d8f-4a7c-8d5f-f902fd90e4bd",
   "name": "Not fall asleep",
   "overview": "Adds an Are You Still Watching? prompt flow for Jellyfin playback.",
@@ -17,4 +17,4 @@
       "dependencies": []
     }
   ]
-}
+}]

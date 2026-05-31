@@ -144,8 +144,9 @@ jobs:
           $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json -Depth 10
           $manifest[0].versions = @($newEntry) + @($manifest[0].versions)
 
-          $json = $manifest | ConvertTo-Json -Depth 10 -Compress:$false
-          Set-Content -LiteralPath $manifestPath -Value $json -NoNewline
+          # Use -InputObject to prevent PowerShell pipeline from unwrapping the top-level array
+          $json = ConvertTo-Json -InputObject $manifest -Depth 10
+          Set-Content -LiteralPath $manifestPath -Value $json -NoNewline -Encoding utf8
 
       - name: Commit and push updated manifest
         run: |
