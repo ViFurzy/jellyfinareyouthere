@@ -75,6 +75,9 @@ internal sealed class StubConfigService : IConfigService
             DebugLogging = _adminConfig.DebugLogging,
             DeveloperMode = _adminConfig.DeveloperMode,
             DeveloperPromptAfterSeconds = _adminConfig.DeveloperPromptAfterSeconds,
+            TimeWindowEnabled = _adminConfig.TimeWindowEnabled,
+            TimeWindowStart = _adminConfig.TimeWindowStart,
+            TimeWindowEnd = _adminConfig.TimeWindowEnd,
             Version = _adminConfig.SchemaVersion,
             SchemaVersion = _adminConfig.SchemaVersion
         };

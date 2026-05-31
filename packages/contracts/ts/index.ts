@@ -20,6 +20,9 @@ export interface EffectiveConfigResponse {
   debugLogging: boolean;
   developerMode: boolean;
   developerPromptAfterSeconds: number;
+  timeWindowEnabled: boolean;
+  timeWindowStart: string;
+  timeWindowEnd: string;
   version: number;
   schemaVersion: number;
 }

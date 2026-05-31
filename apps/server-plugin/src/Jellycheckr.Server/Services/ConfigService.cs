@@ -127,6 +127,9 @@ public sealed class ConfigService : IConfigService
             DebugLogging = config.DebugLogging,
             DeveloperMode = config.DeveloperMode,
             DeveloperPromptAfterSeconds = config.DeveloperPromptAfterSeconds,
+            TimeWindowEnabled = config.TimeWindowEnabled,
+            TimeWindowStart = string.IsNullOrWhiteSpace(config.TimeWindowStart) ? "22:00" : config.TimeWindowStart.Trim(),
+            TimeWindowEnd = string.IsNullOrWhiteSpace(config.TimeWindowEnd) ? "06:10" : config.TimeWindowEnd.Trim(),
             Version = config.SchemaVersion,
             SchemaVersion = config.SchemaVersion
         };

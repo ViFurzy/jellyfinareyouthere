@@ -20,6 +20,9 @@ export const defaults: PluginConfig = {
   DebugLogging: false,
   DeveloperMode: false,
   DeveloperPromptAfterSeconds: 15,
+  TimeWindowEnabled: false,
+  TimeWindowStart: '22:00',
+  TimeWindowEnd: '06:10',
   SchemaVersion: 3
 };
 
@@ -69,6 +72,13 @@ const logLevelNames: Record<string, number> = {
   Critical: 5,
   None: 6
 };
+
+function normalizeTimeString(raw: unknown, fallback: string): string {
+  if (typeof raw !== 'string') return fallback;
+  const trimmed = raw.trim();
+  if (/^\d{2}:\d{2}$/.test(trimmed)) return trimmed;
+  return fallback;
+}
 
 export function normalize(raw: any): PluginConfig {
   const c = raw || {};
@@ -152,6 +162,9 @@ export function normalize(raw: any): PluginConfig {
     DebugLogging: c.DebugLogging === true || c.debugLogging === true,
     DeveloperMode: c.DeveloperMode === true || c.developerMode === true,
     DeveloperPromptAfterSeconds: clamp(parseInt(c.DeveloperPromptAfterSeconds ?? c.developerPromptAfterSeconds ?? defaults.DeveloperPromptAfterSeconds, 10), 1, 60),
+    TimeWindowEnabled: c.TimeWindowEnabled === true || c.timeWindowEnabled === true,
+    TimeWindowStart: normalizeTimeString(c.TimeWindowStart ?? c.timeWindowStart, defaults.TimeWindowStart),
+    TimeWindowEnd: normalizeTimeString(c.TimeWindowEnd ?? c.timeWindowEnd, defaults.TimeWindowEnd),
     SchemaVersion: 3
   };
 }

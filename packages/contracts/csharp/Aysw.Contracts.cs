@@ -57,6 +57,12 @@ public sealed record EffectiveConfigResponse
     public int DeveloperPromptAfterSeconds { get; set; }
     [JsonPropertyName("version")]
     public int Version { get; set; }
+    [JsonPropertyName("timeWindowEnabled")]
+    public bool TimeWindowEnabled { get; set; }
+    [JsonPropertyName("timeWindowStart")]
+    public string TimeWindowStart { get; set; } = "22:00";
+    [JsonPropertyName("timeWindowEnd")]
+    public string TimeWindowEnd { get; set; } = "06:10";
     [JsonPropertyName("schemaVersion")]
     public int SchemaVersion { get; set; }
 }

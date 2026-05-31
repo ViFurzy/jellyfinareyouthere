@@ -42,6 +42,11 @@ public sealed class ServerFallbackDecisionEngine : IServerFallbackDecisionEngine
             return ServerFallbackDecision.Skip("paused");
         }
 
+        if (config.TimeWindowEnabled && !IsInTimeWindow(nowUtc, config.TimeWindowStart, config.TimeWindowEnd))
+        {
+            return ServerFallbackDecision.Skip("outside_time_window");
+        }
+
         // Developer mode provides a fast-path trigger for native-client fallback testing.
         // This mirrors the web quick-cycle intent without requiring episode/time/inactivity thresholds.
         if (config.DeveloperMode && config.DeveloperPromptAfterSeconds > 0)
@@ -94,6 +99,32 @@ public sealed class ServerFallbackDecisionEngine : IServerFallbackDecisionEngine
 
         var reason = $"threshold=or inactivity={inactivityMinutes:F1}m";
         return new ServerFallbackDecision(true, reason, minutesPlayed, state.ServerFallbackEpisodeTransitionsSinceReset, inactivityMinutes);
+    }
+
+    private static bool IsInTimeWindow(DateTimeOffset nowUtc, string start, string end)
+    {
+        if (!TryParseTimeMinutes(start, out var startMins) || !TryParseTimeMinutes(end, out var endMins))
+            return true;
+
+        var local = nowUtc.ToLocalTime();
+        var nowMins = local.Hour * 60 + local.Minute;
+
+        // Overnight window (e.g. 22:00 → 06:10): wrap around midnight
+        return startMins <= endMins
+            ? nowMins >= startMins && nowMins < endMins
+            : nowMins >= startMins || nowMins < endMins;
+    }
+
+    private static bool TryParseTimeMinutes(string time, out int minutes)
+    {
+        minutes = 0;
+        if (string.IsNullOrWhiteSpace(time)) return false;
+        var parts = time.Trim().Split(':');
+        if (parts.Length != 2) return false;
+        if (!int.TryParse(parts[0], out var h) || !int.TryParse(parts[1], out var m)) return false;
+        if (h < 0 || h > 23 || m < 0 || m > 59) return false;
+        minutes = h * 60 + m;
+        return true;
     }
 
     private static DateTimeOffset ResolveActivityAnchor(SessionState state, DateTimeOffset nowUtc)

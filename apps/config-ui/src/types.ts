@@ -18,6 +18,9 @@ export type PluginConfig = {
   DebugLogging: boolean;
   DeveloperMode: boolean;
   DeveloperPromptAfterSeconds: number;
+  TimeWindowEnabled: boolean;
+  TimeWindowStart: string;
+  TimeWindowEnd: string;
   SchemaVersion: number;
 };
 

@@ -17,6 +17,7 @@ import { DeveloperToolsSection } from './sections/DeveloperToolsSection';
 import { FallbackSection } from './sections/FallbackSection';
 import { FeatureTogglesSection } from './sections/FeatureTogglesSection';
 import { PromptTimingSection } from './sections/PromptTimingSection';
+import { TimeWindowSection } from './sections/TimeWindowSection';
 
 export function App() {
   const c = config.value;
@@ -79,6 +80,7 @@ export function App() {
               onUpdateField={updateField}
               onNumberInput={numberHandler}
             />
+            <TimeWindowSection config={c} onUpdateField={updateField} />
             <DeveloperToolsSection config={c} onUpdateField={updateField} onNumberInput={numberHandler} />
 
             <div class="sticky bottom-2 z-[4] flex flex-wrap items-center justify-between gap-3 rounded-[14px] border border-[#67d8bf]/35 bg-[linear-gradient(145deg,rgba(20,52,58,0.94),rgba(13,33,38,0.94))] px-4 py-3 shadow-[0_14px_24px_rgba(0,0,0,0.28)] max-[640px]:static">

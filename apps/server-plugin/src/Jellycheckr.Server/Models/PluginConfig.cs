@@ -32,6 +32,9 @@ public class PluginConfig : BasePluginConfiguration
     public bool DebugLogging { get; set; }
     public bool DeveloperMode { get; set; }
     public int DeveloperPromptAfterSeconds { get; set; } = 15;
+    public bool TimeWindowEnabled { get; set; }
+    public string TimeWindowStart { get; set; } = "22:00";
+    public string TimeWindowEnd { get; set; } = "06:10";
     public int SchemaVersion { get; set; } = 3;
 }
 
