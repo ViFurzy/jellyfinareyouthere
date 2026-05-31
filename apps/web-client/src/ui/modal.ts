@@ -163,8 +163,6 @@ function injectStyles(): void {
       position: fixed;
       inset: 0;
       display: none;
-      align-items: center;
-      justify-content: center;
       background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(3px);
       z-index: 99999;
@@ -172,6 +170,10 @@ function injectStyles(): void {
     }
 
     .jellycheckr-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.96);
       width: min(360px, 88vw);
       background: rgba(18, 18, 18, 0.96);
       color: #fff;
@@ -182,9 +184,8 @@ function injectStyles(): void {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0;
       text-align: center;
-      transform: scale(0.96);
+      z-index: 100000;
       animation: jellyModalIn 200ms ease-out forwards;
     }
 
@@ -262,7 +263,7 @@ function injectStyles(): void {
     }
 
     @keyframes jellyModalIn {
-      to { transform: scale(1); opacity: 1; }
+      to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
     }
   `;
 
