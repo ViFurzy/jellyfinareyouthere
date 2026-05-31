@@ -115,3 +115,42 @@ jobs:
             "- URL: $($result.releaseUrl)"
           ) -join "`n"
           Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value $summary
+
+      - name: Update manifest.json
+        shell: pwsh
+        run: |
+          $bundleDirectory = Join-Path $env:RUNNER_TEMP 'release-bundle'
+          $zipPath = Join-Path $bundleDirectory '${{ inputs.artifact_file_name }}'
+
+          # Compute MD5 checksum
+          $bytes = [System.IO.File]::ReadAllBytes($zipPath)
+          $md5 = [System.Security.Cryptography.MD5]::Create()
+          $checksum = [System.BitConverter]::ToString($md5.ComputeHash($bytes)).Replace('-', '')
+
+          $sourceUrl = "https://github.com/${{ github.repository }}/releases/download/${{ inputs.release_tag }}/${{ inputs.artifact_file_name }}"
+          $timestamp = (Get-Date -AsUTC).ToString('yyyy-MM-ddTHH:mm:ssZ')
+
+          $newEntry = [ordered]@{
+            version    = '${{ inputs.manifest_version }}'
+            changelog  = 'Jellycheckr ${{ inputs.release_version }}'
+            targetAbi  = '${{ inputs.target_abi }}'
+            sourceUrl  = $sourceUrl
+            checksum   = $checksum
+            timestamp  = $timestamp
+            dependencies = @()
+          }
+
+          $manifestPath = Join-Path $env:GITHUB_WORKSPACE 'docs/manifest.json'
+          $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json -Depth 10
+          $manifest[0].versions = @($newEntry) + @($manifest[0].versions)
+
+          $json = $manifest | ConvertTo-Json -Depth 10 -Compress:$false
+          Set-Content -LiteralPath $manifestPath -Value $json -NoNewline
+
+      - name: Commit and push updated manifest
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add docs/manifest.json
+          git commit -m "chore: update manifest for ${{ inputs.release_tag }}"
+          git push
